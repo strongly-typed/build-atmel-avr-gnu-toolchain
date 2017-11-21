@@ -1,0 +1,41 @@
+--- build-avr8-gnu-toolchain-git.sh.1	2017-10-26 07:08:35.000000000 +0000
++++ build-avr8-gnu-toolchain-git.sh	2017-11-21 16:04:48.234072716 +0000
+@@ -451,7 +451,7 @@
+             ${sed_tool} -i 's/m4_copy(\[AC_PREREQ\]/m4_copy_force(\[AC_PREREQ\]/g' ./config/override.m4 || task_error "sed failed"
+             ${sed_tool} -i 's/m4_copy(\[_AC_PREREQ\]/m4_copy_force(\[_AC_PREREQ\]/g' ./config/override.m4 || task_error "sed failed"
+             ${sed_tool} -i 's/  \[m4_fatal(\[Please use exactly Autoconf \]/  \[m4_errprintn(\[Please use exactly Autoconf \]/g' ./config/override.m4 || task_error "sed failed"
+-            autoconf || task_error "autoconf failed"
++            ${autoconf} || task_error "autoconf failed"
+             # Running autoreconf in libstdc++ does not seem to be necessary in 4.3.x
+             # and it causes some problems on platform with auto-tool >2.61
+             ;;
+@@ -460,7 +460,7 @@
+             ${sed_tool} -i 's/m4_copy(\[AC_PREREQ\]/m4_copy_force(\[AC_PREREQ\]/g' ./config/override.m4 || task_error "sed failed"
+             ${sed_tool} -i 's/m4_copy(\[_AC_PREREQ\]/m4_copy_force(\[_AC_PREREQ\]/g' ./config/override.m4 || task_error "sed failed"
+             ${sed_tool} -i 's/  \[m4_fatal(\[Please use exactly Autoconf \]/  \[m4_errprintn(\[Please use exactly Autoconf \]/g' ./config/override.m4 || task_error "sed failed"
+-            autoconf || task_error "autoconf failed"
++            ${autoconf} || task_error "autoconf failed"
+             # Running autoreconf in libstdc++ does not seem to be necessary in 4.3.x
+             # and it causes some problems on platform with auto-tool >2.61
+             ;;
+@@ -1056,6 +1056,9 @@
+     upstream_source=$(ls ${srcdir}/ncurses/ncurses*)
+     unpack_upstream_source ${srcdir} ${upstream_source}
+
++    echo "Patch ncurses"
++    patch src/ncurses-5.9/ncurses/base/MKlib_gen.sh ncurses_patch_5.9p_src_all.patch
++
+     case "${host_platform}" in
+         x86_64*-darwin*)
+             cd ${srcdir}/ncurses-[0-9].*
+@@ -1126,6 +1129,10 @@
+
+ sed_tool=sed
+
++# Use exactly version 2.64 for avr-gcc
++autoconf=autoconf2.64
++autoreconf=autoreconf2.64
++
+ # See if we need to change or set some defaults
+ case "${OSTYPE}" in
+     cygwin)
