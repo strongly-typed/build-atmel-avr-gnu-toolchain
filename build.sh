@@ -2,7 +2,7 @@
 
 SRC="src"
 BUILD="build"
-INSTALL="install"
+INSTALL="avr-gcc" # tar.bz2 needs a prefix of 'avr-gcc'
 DOWNLOAD="download"
 mkdir ${SRC}
 mkdir ${BUILD}
@@ -44,5 +44,3 @@ patch build-avr8-gnu-toolchain-git.sh < build-avr8-gnu-toolchain-git.sh.patch
 # Run Atmel's magic script
 export PARALLEL_JOBS=-j4
 bash build-avr8-gnu-toolchain-git.sh -b ${BUILD} -p ${INSTALL} -s ${SRC}
-
-# tar.bz2 toolchain

@@ -12,3 +12,9 @@ jobs:
           name: Build Toolchain
           command: bash build.sh
           no_output_timeout: 3600
+      - run:
+          name: Create Tarball
+          command: tar cjf /tmp/avr-gcc.tar.bz2 avr-gcc
+      - store_artifacts:
+          path: /tmp/avr-gcc.tar.bz2
+          destination: avr-gcc.tar.bz2
