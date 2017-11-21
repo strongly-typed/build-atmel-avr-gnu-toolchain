@@ -1,0 +1,13 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: stronglytyped/atmel-avr-toolchain-build:latest
+    steps:
+      - checkout
+      - run:
+          name: Look around
+          command: ls -la
+      - run:
+          name: Build Toolchain
+          command: bash build.sh
