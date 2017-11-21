@@ -11,3 +11,4 @@ jobs:
       - run:
           name: Build Toolchain
           command: bash build.sh
+          no_output_timeout: 3600
