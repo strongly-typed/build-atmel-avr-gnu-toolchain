@@ -5,16 +5,71 @@ jobs:
       - image: stronglytyped/atmel-avr-toolchain-build:latest
     steps:
       - checkout
-      - run:
-          name: Look around
-          command: ls -la
+      # - run:
+      #     name: Fake Build Toolchain
+      #     command: |
+      #       mkdir -p avr-gcc
+      #       echo `date` > avr-gcc/toolchain.txt
+      #       echo `git describe --tags` >> avr-gcc/toolchain.txt
       - run:
           name: Build Toolchain
           command: bash build.sh
           no_output_timeout: 3600
       - run:
           name: Create Tarball
-          command: tar cjf /tmp/avr-gcc.tar.bz2 avr-gcc
+          command: |
+            mkdir -p workspace
+            tar cjf workspace/avr-gcc.tar.bz2 avr-gcc
       - store_artifacts:
-          path: /tmp/avr-gcc.tar.bz2
+          path: workspace/avr-gcc.tar.bz2
           destination: avr-gcc.tar.bz2
+      - persist_to_workspace:
+          root: workspace
+          paths:
+            - avr-gcc.tar.bz2
+  test:
+    docker:
+      - image: stronglytyped/atmel-avr-toolchain-build:latest
+    steps:
+      - attach_workspace:
+          at: workspace
+      - run:
+          name: Unpack Toolchain
+          command: tar xf workspace/avr-gcc.tar.bz2
+  deploy:
+    docker:
+      - image: circleci/golang:latest
+    steps:
+      - checkout
+      - attach_workspace:
+          at: workspace
+      - run:
+          name: Get GHR
+          command: go get github.com/tcnksm/ghr
+      - run:
+          name: Deploy
+          command: ghr -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME --replace `git describe --tags` workspace/avr-gcc.tar.bz2
+
+workflows:
+  version: 2
+
+  build-test-deploy:
+    jobs:
+      - build:
+          filters:
+            tags:
+              only: /v.*/
+      - test:
+          requires:
+            - build
+          filters:
+            tags:
+              only: /v.*/
+      - deploy:
+          requires:
+            - test
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /v.*/
