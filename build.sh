@@ -10,13 +10,13 @@ mkdir ${INSTALL}
 mkdir ${DOWNLOAD}
 
 # Get sources
-AVR_GNU_TOOLCHAIN_VERSION=3.6.1
-wget --quiet "http://distribute.atmel.no/tools/opensource/Atmel-AVR-GNU-Toolchain/${AVR_GNU_TOOLCHAIN_VERSION}/build-avr8-gnu-toolchain-git.sh"
-wget --quiet "http://distribute.atmel.no/tools/opensource/Atmel-AVR-GNU-Toolchain/${AVR_GNU_TOOLCHAIN_VERSION}/avr-binutils.tar.bz2" -P ${DOWNLOAD}
-wget --quiet "http://distribute.atmel.no/tools/opensource/Atmel-AVR-GNU-Toolchain/${AVR_GNU_TOOLCHAIN_VERSION}/avr-gcc.tar.bz2"      -P ${DOWNLOAD}
-wget --quiet "http://distribute.atmel.no/tools/opensource/Atmel-AVR-GNU-Toolchain/${AVR_GNU_TOOLCHAIN_VERSION}/avr-gdb.tar.bz2"      -P ${DOWNLOAD}
-wget --quiet "http://distribute.atmel.no/tools/opensource/Atmel-AVR-GNU-Toolchain/${AVR_GNU_TOOLCHAIN_VERSION}/avr-libc.tar.bz2"     -P ${DOWNLOAD}
-wget --quiet "http://distribute.atmel.no/tools/opensource/Atmel-AVR-GNU-Toolchain/${AVR_GNU_TOOLCHAIN_VERSION}/avr8-headers.zip"     -P ${SRC}/headers
+export AVR_8_GNU_TOOLCHAIN_VERSION=3.6.1
+wget --quiet "http://distribute.atmel.no/tools/opensource/Atmel-AVR-GNU-Toolchain/${AVR_8_GNU_TOOLCHAIN_VERSION}/build-avr8-gnu-toolchain-git.sh"
+wget --quiet "http://distribute.atmel.no/tools/opensource/Atmel-AVR-GNU-Toolchain/${AVR_8_GNU_TOOLCHAIN_VERSION}/avr-binutils.tar.bz2" -P ${DOWNLOAD}
+wget --quiet "http://distribute.atmel.no/tools/opensource/Atmel-AVR-GNU-Toolchain/${AVR_8_GNU_TOOLCHAIN_VERSION}/avr-gcc.tar.bz2"      -P ${DOWNLOAD}
+wget --quiet "http://distribute.atmel.no/tools/opensource/Atmel-AVR-GNU-Toolchain/${AVR_8_GNU_TOOLCHAIN_VERSION}/avr-gdb.tar.bz2"      -P ${DOWNLOAD}
+wget --quiet "http://distribute.atmel.no/tools/opensource/Atmel-AVR-GNU-Toolchain/${AVR_8_GNU_TOOLCHAIN_VERSION}/avr-libc.tar.bz2"     -P ${DOWNLOAD}
+wget --quiet "http://distribute.atmel.no/tools/opensource/Atmel-AVR-GNU-Toolchain/${AVR_8_GNU_TOOLCHAIN_VERSION}/avr8-headers.zip"     -P ${SRC}/headers
 
 # Extract Tar Balls
 tar xf ${DOWNLOAD}/avr-binutils.tar.bz2 --directory ${SRC}
@@ -25,9 +25,8 @@ tar xf ${DOWNLOAD}/avr-gdb.tar.bz2      --directory ${SRC}
 tar xf ${DOWNLOAD}/avr-libc.tar.bz2     --directory ${SRC}
 
 # Set ATMEL-VER which is not included in the tar ball
-echo ${AVR_GNU_TOOLCHAIN_VERSION} > ${SRC}/gdb/bfd/ATMEL-VER
-echo ${AVR_GNU_TOOLCHAIN_VERSION} > ${SRC}/gcc/gcc/ATMEL-VER
-export AVR_GNU_TOOLCHAIN_VERSION=${AVR_GNU_TOOLCHAIN_VERSION}
+echo ${AVR_8_GNU_TOOLCHAIN_VERSION} > ${SRC}/gdb/bfd/ATMEL-VER
+echo ${AVR_8_GNU_TOOLCHAIN_VERSION} > ${SRC}/gcc/gcc/ATMEL-VER
 
 # Get dependencies
 wget --quiet "https://ftp.gnu.org/gnu/gmp/gmp-5.0.2.tar.bz2"             -P ${SRC}/gmp
