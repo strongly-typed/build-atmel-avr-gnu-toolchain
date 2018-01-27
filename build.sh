@@ -31,7 +31,7 @@ echo ${AVR_8_GNU_TOOLCHAIN_VERSION} > ${SRC}/gcc/gcc/ATMEL-VER
 # Get dependencies
 wget --quiet "https://ftp.gnu.org/gnu/gmp/gmp-5.0.2.tar.bz2"             -P ${SRC}/gmp
 wget --quiet "http://www.mpfr.org/mpfr-3.0.0/mpfr-3.0.0.tar.gz"          -P ${SRC}/mpfr
-wget --quiet "http://www.multiprecision.org/mpc/download/mpc-0.9.tar.gz" -P ${SRC}/mpc
+wget --quiet "http://www.multiprecision.org/downloads/mpc-0.9.tar.gz"    -P ${SRC}/mpc
 wget --quiet "https://ftp.gnu.org/gnu/ncurses/ncurses-5.9.tar.gz"        -P ${SRC}/ncurses
 
 # Get Ncurses patch
